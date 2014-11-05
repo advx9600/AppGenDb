@@ -1,49 +1,34 @@
-import java.io.IOException;
-
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
-import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
 
-public class AAA {
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		// genUpgradeAppDb();
-		// genUpgradeSystemDb();
-		genMyMobileAssistantDb();
-	}
-
-	private static void genMyMobileAssistantDb() {
+public class GreenDaoGen {
+	public static void genMyMobileAssistantDb() {
 		Schema schema = new Schema(1000, "com.dafeng.mymodibleassistant.dao");
 		schema.setExtraDaoImport("com.dafeng.mymodibleassistant.db.ExtraDaoMater");
 
 		/*
 		 * 
 		 * */
-		Entity note = schema.addEntity("TbAppDis");
+		Entity note = schema.addEntity("TbApp");
 		note.addIdProperty();
-		note.addStringProperty("pkg").unique();
+		note.addStringProperty("pkg");
+		note.addStringProperty("name");
+		note.addBooleanProperty("isShow").setDefVal(true);
 		note.addBooleanProperty("isPosIndependent").setDefVal(false);
 		note.addIntProperty("x").setDefVal(100);
 		note.addIntProperty("y").setDefVal(100);
+		note.addBooleanProperty("isShowInputPicker").setDefVal(false);
+		note.addStringProperty("inputMethod");
 
-		Entity note2 = schema.addEntity("TbJumpToApp");
+		Entity note2 = schema.addEntity("TbJump");
 		note2.addIdProperty();
-		note2.addStringProperty("pkg");
-		note2.addStringProperty("name");
-		note2.addBooleanProperty("isShowInputPicker").setDefVal(false);
-		note2.addStringProperty("inputMethod");
+		note2.addLongProperty("appId");
+		note2.addLongProperty("jumpId");
 
-		Property appIdProperty = note2.addLongProperty("appId").getProperty();
-		note.addToMany(note2, appIdProperty);
-
-		Entity note3 = schema.addEntity("TbAppShortcut");
+		Entity note3 = schema.addEntity("TbShortcut");
 		note3.addIdProperty();
-		note3.addStringProperty("pkg");
-		note3.addStringProperty("name");
-		note3.addBooleanProperty("isShowInputPicker").setDefVal(false);
-		note3.addStringProperty("inputMethod");
+		note3.addLongProperty("appId");
 
 		try {
 			new DaoGenerator().generateAll(schema,
@@ -54,7 +39,7 @@ public class AAA {
 		}
 	}
 
-	private static void genUpgradeSystemDb() {
+	public static void genUpgradeSystemDb() {
 		Schema schema = new Schema(1000, "com.dafeng.upgrade.dao");
 
 		Entity note = schema.addEntity("TbImgs");
@@ -73,7 +58,7 @@ public class AAA {
 		}
 	}
 
-	private static void genUpgradeAppDb() {
+	public static void genUpgradeAppDb() {
 		Schema schema = new Schema(1000, "com.dafeng.upgradeapp.dao");
 
 		Entity note = schema.addEntity("CustomApp");
