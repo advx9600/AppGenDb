@@ -142,7 +142,7 @@ static ssize_t fs_write (struct file * a, const char * data, size_t size, loff_t
 	return size;
 }
 
-ssize_t fs_read(struct file *file, char __user *user, size_t size, loff_t * loff)
+static ssize_t fs_read(struct file *file, char __user *user, size_t size, loff_t * loff)
 {
 	Write_a wrA;	
 	if (size != sizeof(wrA)){
