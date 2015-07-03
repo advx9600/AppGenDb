@@ -74,4 +74,21 @@ public class GreenDaoGen {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void genZheTuWifiDb(){
+		Schema schema = new Schema(1000, "com.dafeng.upgradeapp.dao");
+		schema.setExtraDaoImport("com.example.zhetuwifi.db.ExtraDaoMater");
+
+		Entity note = schema.addEntity("TbConfig");
+		note.addIdProperty().autoincrement();
+		note.addStringProperty("name").notNull();
+		note.addStringProperty("val").notNull();
+
+		try {
+			new DaoGenerator().generateAll(schema, "../ZheTuWifi/src-gen");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
