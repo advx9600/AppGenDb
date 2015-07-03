@@ -1,0 +1,21 @@
+diff --git a/DaoGenerator/src-template/dao.ftl b/DaoGenerator/src-template/dao.ftl
+index b873db9..e6cb99c 100644
+--- a/DaoGenerator/src-template/dao.ftl
++++ b/DaoGenerator/src-template/dao.ftl
+@@ -87,6 +87,16 @@ public class ${entity.classNameDao} extends AbstractDao<${entity.className}, ${e
+         super(config);
+     }
+     
++	public ${entity.className} findById(long id){
++		java.util.List<${entity.className}> list = queryRaw(
++		" where " + Properties.Id.columnName
++		+ "=" + id);
++		if (list.size()>0){
++		return list.get(0);
++		}
++		return null;
++	}
++
+     public ${entity.classNameDao}(DaoConfig config, DaoSession daoSession) {
+         super(config, daoSession);
+ <#if entity.active>        
