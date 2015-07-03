@@ -1,5 +1,5 @@
 diff --git a/DaoGenerator/src-template/dao-master.ftl b/DaoGenerator/src-template/dao-master.ftl
-index adaffc4..cc40687 100644
+index adaffc4..d44e883 100644
 --- a/DaoGenerator/src-template/dao-master.ftl
 +++ b/DaoGenerator/src-template/dao-master.ftl
 @@ -26,6 +26,7 @@ import android.database.sqlite.SQLiteOpenHelper;
@@ -10,7 +10,7 @@ index adaffc4..cc40687 100644
  
  <#list schema.entities as entity>
  import ${entity.javaPackageDao}.${entity.classNameDao};
-@@ -58,13 +59,17 @@ public class DaoMaster extends AbstractDaoMaster {
+@@ -58,7 +59,10 @@ public class DaoMaster extends AbstractDaoMaster {
      
      public static abstract class OpenHelper extends SQLiteOpenHelper {
  
@@ -21,13 +21,14 @@ index adaffc4..cc40687 100644
              super(context, name, factory, SCHEMA_VERSION);
          }
  
-         @Override
+@@ -66,6 +70,7 @@ public class DaoMaster extends AbstractDaoMaster {
          public void onCreate(SQLiteDatabase db) {
              Log.i("greenDAO", "Creating tables for schema version " + SCHEMA_VERSION);
-+	     ExtraDaoMater.onCreate(db, con);
              createAllTables(db, false);
++	    ExtraDaoMater.onCreate(db, con);
          }
      }
+     
 diff --git a/DaoGenerator/src/de/greenrobot/daogenerator/Schema.java b/DaoGenerator/src/de/greenrobot/daogenerator/Schema.java
 index 8351ecb..366ee14 100644
 --- a/DaoGenerator/src/de/greenrobot/daogenerator/Schema.java
