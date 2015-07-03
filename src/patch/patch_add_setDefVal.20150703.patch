@@ -1,0 +1,55 @@
+diff --git a/DaoGenerator/src-template/entity.ftl b/DaoGenerator/src-template/entity.ftl
+index 6753115..c36520c 100644
+--- a/DaoGenerator/src-template/entity.ftl
++++ b/DaoGenerator/src-template/entity.ftl
+@@ -56,7 +56,7 @@ as ifc>${ifc}<#if ifc_has_next>, </#if></#list></#if> {
+ <#if property.notNull && complexTypes?seq_contains(property.propertyType)>
+     /** Not-null value. */
+ </#if>
+-    private ${property.javaType} ${property.propertyName};
++    private ${property.javaType} ${property.propertyName}<#if property.defVal??>=${property.defVal}</#if>;
+ </#list>
+ 
+ <#if entity.active>
+diff --git a/DaoGenerator/src/de/greenrobot/daogenerator/Property.java b/DaoGenerator/src/de/greenrobot/daogenerator/Property.java
+index cf5f844..feba6a0 100644
+--- a/DaoGenerator/src/de/greenrobot/daogenerator/Property.java
++++ b/DaoGenerator/src/de/greenrobot/daogenerator/Property.java
+@@ -110,6 +110,18 @@ public class Property {
+             return this;
+         }
+ 
++	public PropertyBuilder setDefVal(Object defVal) {
++		switch (property.getPropertyType()) {
++		case String:
++			property.defVal = "\"" + defVal.toString() + "\"";
++			break;
++		default:
++			property.defVal = defVal.toString();
++			break;
++		}
++		return this;
++	}
++
+         public Property getProperty() {
+             return property;
+         }
+@@ -136,6 +148,7 @@ public class Property {
+     private boolean unique;
+     private boolean notNull;
+ 
++    private Object defVal;
+     /** Initialized in 2nd pass */
+     private String constraints;
+ 
+@@ -190,6 +203,10 @@ public class Property {
+         return notNull;
+     }
+ 
++    public String getDefVal() {
++	return (String)defVal;
++    }
++
+     public String getJavaType() {
+         return javaType;
+     }
